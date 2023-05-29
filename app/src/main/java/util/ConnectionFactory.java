@@ -1,5 +1,9 @@
 package util;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 public class ConnectionFactory {
     
     // Variável que especifica o uso do banco de dados MySQL:
@@ -10,6 +14,17 @@ public class ConnectionFactory {
     public static final String USER = "root";
     // Variável de senha:
     public static final String PASS = "";
+    
+    // Métodos:
+    // Retorna uma conexão:
+    public static Connection getConnection() {
+        try {
+            Class.forName(DRIVER);
+            return DriverManager.getConnection(URL, USER, PASS);
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro na conexão com o banco de dados", ex);
+        }
+    }
     
     
 }
