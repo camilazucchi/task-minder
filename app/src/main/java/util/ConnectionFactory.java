@@ -2,7 +2,7 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ConnectionFactory {
     
@@ -21,7 +21,7 @@ public class ConnectionFactory {
         try {
             Class.forName(DRIVER);
             return DriverManager.getConnection(URL, USER, PASS);
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             throw new RuntimeException("Erro na conexão com o banco de dados", ex);
         }
     }
@@ -33,9 +33,8 @@ public class ConnectionFactory {
             if (connection != null) {
                 connection.close();
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new RuntimeException("Erro ao fechar a conexão com o banco de dados.");
         }
     }
-    
 }
