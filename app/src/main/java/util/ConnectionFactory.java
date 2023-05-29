@@ -34,7 +34,7 @@ public class ConnectionFactory {
                 connection.close();
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados.");
+            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados.", ex);
         }
     }
 }
