@@ -31,6 +31,9 @@ public class TaskController {
             statement.execute();
         } catch (SQLException ex) {
             throw new SQLException("Erro ao deletar a tarefa.", ex);
+        } finally {
+            // O bloco finally é um bloco que SEMPRE será executado!
+            ConnectionFactory.closeConnection(conn);
         }
     }
     
