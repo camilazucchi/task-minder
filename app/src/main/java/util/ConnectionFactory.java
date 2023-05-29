@@ -26,5 +26,16 @@ public class ConnectionFactory {
         }
     }
     
+    // Fecha a conexão com o banco de dados:
+    public static void closeConnection(Connection connection) {
+        try {
+            // Essa conexão existe? Se diferente de null = sim. Feche a conexão com connection.close:
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados.");
+        }
+    }
     
 }
