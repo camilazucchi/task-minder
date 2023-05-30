@@ -41,11 +41,13 @@ public class TaskController {
             throw new SQLException("Erro ao salvar a tarefa: ",
                     ex.getMessage(), ex);
         } finally {
-            ConnectionFactory.closeConnection(conn);
+            ConnectionFactory.closeConnection(conn, statement);
         }
     }
 
     public void update(Task task) {
+        
+        
 
     }
 
