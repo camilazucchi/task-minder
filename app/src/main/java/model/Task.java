@@ -62,7 +62,7 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isIsCompleted() {
+    public boolean isCompleted() {
         return isCompleted;
     }
 
