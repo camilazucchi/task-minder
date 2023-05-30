@@ -112,6 +112,7 @@ public class TaskController {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         
+        // Lista de tarefas que será devolvida quando a chamada do método acontecer.
         List<Task> tasks = new ArrayList<Task>();
         
         try {
@@ -131,14 +132,14 @@ public class TaskController {
                 task.setDeadline(resultSet.getDate("deadline"));
                 task.setCreatedAt(resultSet.getDate("createdAt"));
                 task.setUpdatedAt(resultSet.getDate("updatedAt"));
-                
                 tasks.add(task);
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao deletar tarefa: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
-        
-        
-        
-        return null;
+        // Lista de tarefas criada e carregada do banco de dados:
+        return tasks;
     }
 }
