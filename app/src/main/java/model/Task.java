@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Task {
     
@@ -10,11 +10,11 @@ public class Task {
     private String description;
     private boolean isCompleted;
     private String notes;
-    private LocalDate deadline;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    private Date deadline;
+    private Date createdAt;
+    private Date updatedAt;
 
-    public Task(int id, int idProject, String name, String description, boolean isCompleted, String notes, LocalDate deadline, LocalDate createdAt, LocalDate updatedAt) {
+    public Task(int id, int idProject, String name, String description, boolean isCompleted, String notes, Date deadline, Date createdAt, Date updatedAt) {
         this.id = id;
         this.idProject = idProject;
         this.name = name;
@@ -74,27 +74,27 @@ public class Task {
         this.notes = notes;
     }
 
-    public LocalDate getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
-    public LocalDate getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
