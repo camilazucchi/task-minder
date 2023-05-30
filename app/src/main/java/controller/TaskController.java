@@ -22,12 +22,12 @@ public class TaskController {
                 + "updatedAt)"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        Connection conn = null;
+        Connection connection = null;
         PreparedStatement statement = null;
 
         try {
-            conn = ConnectionFactory.getConnection();
-            statement = conn.prepareStatement(sql);
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, task.getIdProject());
             statement.setString(2, task.getName());
             statement.setString(3, task.getDescription());
@@ -41,7 +41,7 @@ public class TaskController {
             throw new SQLException("Erro ao salvar a tarefa: ",
                     ex.getMessage(), ex);
         } finally {
-            ConnectionFactory.closeConnection(conn, statement);
+            ConnectionFactory.closeConnection(connection, statement);
         }
     }
 
@@ -55,12 +55,12 @@ public class TaskController {
 
         String sql = "DELETE FROM tasks WHERE id = ?";
 
-        Connection conn = null;
+        Connection connection = null;
         PreparedStatement statement = null;
 
         try {
-            conn = ConnectionFactory.getConnection();
-            statement = conn.prepareStatement(sql);
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, taskId);
             statement.execute();
         } catch (SQLException ex) {
@@ -68,7 +68,7 @@ public class TaskController {
                     ex.getMessage(), ex);
         } finally {
             // O bloco finally é um bloco que SEMPRE será executado!
-            ConnectionFactory.closeConnection(conn);
+            ConnectionFactory.closeConnection(connection, statement);
         }
     }
 
