@@ -47,7 +47,38 @@ public class TaskController {
 
     public void update(Task task) {
         
+        String sql = "UPDATE tasks SET "
+                + "idProject = ?, "
+                + "name = ?, "
+                + "notes = ?, "
+                + "deadline = ?, "
+                + "completed = ?, "
+                + "createdAt = ?, "
+                + "updatedAt = ?, "
+                + "WHERE id = ? ";
         
+        Connection connection = null;
+        PreparedStatement statement = null;
+        
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(sql);
+            // O ID da tarefa é gerenciado pelo próprio banco de dados!
+            statement.setInt(1, task.getIdProject());
+            statement.setString(2, task.getName());
+            statement.setString(3, task.getDescription());
+            statement.setBoolean(4, task.isIsCompleted());
+            statement.setString(5, task.getNotes());
+            statement.setDate(6, new Date(task.getDeadline().getTime()));
+            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
+            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
+            statement.execute();
+            
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao atualizar tarefa: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection(connection, statement);
+        }
 
     }
 
