@@ -22,7 +22,7 @@ public class ConnectionFactory {
             Class.forName(DRIVER);
             return DriverManager.getConnection(URL, USER, PASS);
         } catch (ClassNotFoundException | SQLException ex) {
-            throw new RuntimeException("Erro na conexão com o banco de dados", ex);
+            throw new RuntimeException("Erro na conexão com o banco de dados: ", ex);
         }
     }
     
@@ -34,7 +34,7 @@ public class ConnectionFactory {
                 connection.close();
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados.", ex);
+            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados: ", ex);
         }
     }
 }

@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Task {
     
@@ -24,6 +24,10 @@ public class Task {
         this.deadline = deadline;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+    
+    public Task() {
+        this.createdAt = new Date();
     }
 
     public int getId() {
