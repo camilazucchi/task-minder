@@ -128,9 +128,12 @@ public class TaskController {
         try {
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(sql);
+            // Setando o valor que corresponde ao filtro de busca:
             statement.setInt(1, idProject);
+            // Valor retornado pela execução da query:
             resultSet = statement.executeQuery();
             
+            // Enquanto houverem valores a serem percorridos no resultSet:
             while(resultSet.next()) {
                 Task task = new Task();
                 task.setId(resultSet.getInt("id"));
