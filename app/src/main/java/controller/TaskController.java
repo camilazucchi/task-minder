@@ -63,9 +63,13 @@ public class TaskController {
         PreparedStatement statement = null;
         
         try {
+            // Estabelecendo a conexão com o banco de dados:
             connection = ConnectionFactory.getConnection();
+            
+            // Preparando a query:
             statement = connection.prepareStatement(sql);
             // O ID da tarefa é gerenciado pelo próprio banco de dados!
+            // Setando os valores do statement:
             statement.setInt(1, task.getIdProject());
             statement.setString(2, task.getName());
             statement.setString(3, task.getDescription());
@@ -74,6 +78,8 @@ public class TaskController {
             statement.setDate(6, new Date(task.getDeadline().getTime()));
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
             statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
+            statement.setInt(9, task.getId());
+            // Executando a query:
             statement.execute();
             
         } catch (Exception ex) {
