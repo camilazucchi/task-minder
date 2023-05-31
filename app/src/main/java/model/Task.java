@@ -3,7 +3,7 @@ package model;
 import java.util.Date;
 
 public class Task {
-    
+
     private int id;
     private int idProject;
     private String name;
@@ -25,7 +25,7 @@ public class Task {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    
+
     public Task() {
         this.createdAt = new Date();
     }
@@ -106,5 +106,5 @@ public class Task {
     public String toString() {
         return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" + name + ", description=" + description + ", isCompleted=" + isCompleted + ", notes=" + notes + ", deadline=" + deadline + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
     }
-    
+
 }

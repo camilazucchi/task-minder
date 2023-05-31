@@ -12,6 +12,7 @@ import util.ConnectionFactory;
 
 public class ProjectController {
 
+    // Método que salva um projeto:
     public void save(Project project) throws SQLException {
 
         String sql = "INSERT INTO projects(name, "
@@ -20,6 +21,7 @@ public class ProjectController {
                 + "updatedAt) "
                 + "VALUES (?, ?, ?, ?)";
 
+        // Estabelece a conexão com o banco de dados e prepara a query:
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());

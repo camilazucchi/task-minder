@@ -14,9 +14,5 @@ public class App {
     public static void main(String[] args) {
         // Pede e retorna uma conexão:
         Connection c = ConnectionFactory.getConnection();
-        
-        // Fecha a conexão:
-        ConnectionFactory.closeConnection(c);
-        
     }
 }
