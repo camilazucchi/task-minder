@@ -148,7 +148,7 @@ public class TaskController {
                 tasks.add(task);
             }
         } catch (Exception ex) {
-            throw new RuntimeException("Erro ao deletar tarefa: " + ex.getMessage());
+            throw new RuntimeException("Erro ao inserir a tarefa: " + ex.getMessage());
         } finally {
             ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
