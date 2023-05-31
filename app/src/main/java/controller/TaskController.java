@@ -98,9 +98,13 @@ public class TaskController {
         PreparedStatement statement = null;
 
         try {
+            // Estabelecendo a conexão com o banco de dados:
             connection = ConnectionFactory.getConnection();
+            // Preparando a query:
             statement = connection.prepareStatement(sql);
+            // Setando os valores:
             statement.setInt(1, taskId);
+            // Executando a query:
             statement.execute();
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao deletar tarefa: " + ex.getMessage());
