@@ -377,7 +377,6 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabelEmptyListSubtitle" pref="531" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabelEmptyListImg" max="32767" attributes="0"/>
@@ -387,6 +386,10 @@
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabelEmptyListSubtitle" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
