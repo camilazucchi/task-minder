@@ -93,4 +93,14 @@ public class ProjectController {
 
         return projects;
     }
+    
+    public void removeAllProjects() {
+        String sql = "DELETE FROM projects";
+        
+        try(Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.executeUpdate();
+        } catch(SQLException ex) {
+            throw new RuntimeException("Erro ao remover os projetos: " + ex.getMessage());
+        }
+    }
 }
