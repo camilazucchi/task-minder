@@ -40,7 +40,7 @@ public class ProjectController {
                 + "name = ?, "
                 + "description = ?, "
                 + "createdAt = ?, "
-                + "updatedAt = ?, "
+                + "updatedAt = ? "
                 + "WHERE id = ? ";
 
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -56,7 +56,7 @@ public class ProjectController {
     }
 
     public void removeById(int idProject) {
-        String sql = "DELETE FROM projects WHERE idProject = ?";
+        String sql = "DELETE FROM projects WHERE id = ?";
 
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idProject);
