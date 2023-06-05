@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Project {
@@ -7,10 +8,10 @@ public class Project {
     private int id;
     private String name;
     private String description;
-    private Date createdAt;
-    private Date updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    public Project(int id, String name, String description, Date createdAt, Date updatedAt) {
+    public Project(int id, String name, String description, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -19,7 +20,7 @@ public class Project {
     }
     
     public Project() {
-        this.createdAt = new Date();
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public int getId() {
@@ -50,7 +51,7 @@ public class Project {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -58,7 +59,7 @@ public class Project {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

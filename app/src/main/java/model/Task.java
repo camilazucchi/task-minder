@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Task {
@@ -11,10 +12,10 @@ public class Task {
     private boolean isCompleted;
     private String notes;
     private Date deadline;
-    private Date createdAt;
-    private Date updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    public Task(int id, int idProject, String name, String description, boolean isCompleted, String notes, Date deadline, Date createdAt, Date updatedAt) {
+    public Task(int id, int idProject, String name, String description, boolean isCompleted, String notes, Date deadline, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.idProject = idProject;
         this.name = name;
@@ -27,7 +28,7 @@ public class Task {
     }
 
     public Task() {
-        this.createdAt = new Date();
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public int getId() {
@@ -90,7 +91,7 @@ public class Task {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -98,7 +99,7 @@ public class Task {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 
