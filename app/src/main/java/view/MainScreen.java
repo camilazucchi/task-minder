@@ -210,7 +210,7 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanelTasksLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelTasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTasksAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                    .addComponent(jLabelTasksAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
                     .addComponent(jLabelTasksTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -221,11 +221,6 @@ public class MainScreen extends javax.swing.JFrame {
         jListProjects.setBorder(null);
         jListProjects.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jListProjects.setForeground(new java.awt.Color(66, 62, 55));
-        jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setAlignmentX(1.0F);
         jListProjects.setAlignmentY(1.0F);
@@ -244,10 +239,10 @@ public class MainScreen extends javax.swing.JFrame {
         );
         jPanelProjectsListLayout.setVerticalGroup(
             jPanelProjectsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelProjectsListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPanelProjects)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProjectsListLayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jScrollPanelProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         jPanelTasksList.setBackground(new java.awt.Color(255, 255, 255));
@@ -294,7 +289,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
         jPanelTasksListLayout.setVerticalGroup(
             jPanelTasksListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
