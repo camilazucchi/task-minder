@@ -4,12 +4,17 @@
  */
 package view;
 
+import controller.ProjectController;
+import controller.TaskController;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.JTableHeader;
+import model.Project;
 
 /**
  *
@@ -17,12 +22,17 @@ import javax.swing.table.JTableHeader;
  */
 public class MainScreen extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainScreen
-     */
+    ProjectController projectController;
+    TaskController taskController;
+    
+    // Esse objeto será responsável por ser o model do componente gráfico:
+    DefaultListModel<Project> projectModel;
+   
     public MainScreen() {
         initComponents();
         decorateTableTask();
+        initDataController();
+        initComponentsModel();
     }
 
     /**
@@ -407,5 +417,28 @@ public class MainScreen extends javax.swing.JFrame {
         
         // Criando um sort automático para as colunas da tabela:
         jTableTasks.setAutoCreateRowSorter(true);
+    }
+    
+    public void initDataController() {
+        projectController = new ProjectController();
+        taskController = new TaskController();
+    }
+    
+    // Iniciando o projectModel:
+    public void initComponentsModel() {
+        projectModel = new DefaultListModel<Project>();
+        loadProjects();
+    }
+    
+    // Método responsável por carregar os projetos:
+    public void loadProjects() {
+        List<Project> projects = projectController.getAll();
+        
+        projectModel.clear();
+        
+        for(int i = 0; i < projects.size() -1; i++) {
+            Project project = projects.get(i);
+            projectModel.addElement(project);
+        }
     }
 }
