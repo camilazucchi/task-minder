@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import model.Project;
@@ -24,8 +25,8 @@ public class ProjectController {
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
-            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            statement.setTimestamp(3, project.getCreatedAt() != null ? Timestamp.valueOf(project.getCreatedAt()) : null);
+            statement.setTimestamp(4, project.getUpdatedAt() != null ? Timestamp.valueOf(project.getUpdatedAt()) : Timestamp.valueOf(LocalDateTime.now()));
             statement.execute();
         } catch (SQLException ex) {
             throw new SQLException("Erro ao salvar o projeto: ",
@@ -37,8 +38,8 @@ public class ProjectController {
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
-            statement.setTimestamp(3, new Timestamp(project.getCreatedAt().getTime()));
-            statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            statement.setObject(3, Timestamp.valueOf(project.getCreatedAt()));
+            statement.setObject(4, Timestamp.valueOf(LocalDateTime.now()));
             statement.setInt(5, project.getId());
             statement.execute();
         } catch (SQLException ex) {
@@ -69,8 +70,8 @@ public class ProjectController {
                 project.setId(resultSet.getInt("id"));
                 project.setName(resultSet.getString("name"));
                 project.setDescription(resultSet.getString("description"));
-                project.setCreatedAt(resultSet.getTimestamp("createdAt"));
-                project.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+                project.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+                project.setUpdatedAt(resultSet.getTimestamp("updatedAt").toLocalDateTime());
 
                 projects.add(project);
             }
