@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import model.Task;
@@ -25,13 +24,29 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setBoolean(4, task.isCompleted());
             statement.setString(5, task.getNotes());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setTimestamp(7, new Timestamp(task.getCreatedAt().getTime()));
-            statement.setTimestamp(8, new Timestamp(task.getUpdatedAt().getTime()));
+            if (task.getDeadline() != null) {
+                statement.setDate(6, new Date(task.getDeadline().getTime()));
+            } else {
+                statement.setNull(6, java.sql.Types.DATE);
+            }
+            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
+            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
+
+            System.out.println("SQL Query: " + statement.toString());
+            System.out.println("idProject: " + task.getIdProject());
+            System.out.println("name: " + task.getName());
+            System.out.println("description: " + task.getDescription());
+            System.out.println("completed: " + task.isCompleted());
+            System.out.println("notes: " + task.getNotes());
+            System.out.println("deadline: " + task.getDeadline());
+            System.out.println("createdAt: " + task.getCreatedAt());
+            System.out.println("updatedAt: " + task.getUpdatedAt());
+
             statement.execute();
         } catch (SQLException ex) {
-            throw new SQLException("Erro ao salvar a tarefa: ",
-                    ex.getMessage(), ex);
+            System.err.println("Erro ao salvar a tarefa: " + ex.getMessage());
+            ex.printStackTrace();
+            throw new SQLException("Erro ao salvar a tarefa: ", ex.getMessage(), ex);
         }
     }
 
@@ -44,8 +59,8 @@ public class TaskController {
             statement.setBoolean(4, task.isCompleted());
             statement.setString(5, task.getNotes());
             statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setTimestamp(7, new Timestamp(task.getCreatedAt().getTime()));
-            statement.setTimestamp(8, new Timestamp(task.getUpdatedAt().getTime()));
+            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
+            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
             statement.setInt(9, task.getId());
             // Executando a query:
             statement.execute();
@@ -89,8 +104,8 @@ public class TaskController {
                 task.setIsCompleted(resultSet.getBoolean("completed"));
                 task.setNotes(resultSet.getString("notes"));
                 task.setDeadline(resultSet.getDate("deadline"));
-                task.setCreatedAt(resultSet.getTimestamp("createdAt"));
-                task.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+                task.setCreatedAt(resultSet.getDate("createdAt"));
+                task.setUpdatedAt(resultSet.getDate("updatedAt"));
                 tasks.add(task);
             }
         } catch (Exception ex) {

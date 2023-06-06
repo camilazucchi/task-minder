@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Task {
@@ -12,10 +11,10 @@ public class Task {
     private boolean isCompleted;
     private String notes;
     private Date deadline;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
 
-    public Task(int id, int idProject, String name, String description, boolean isCompleted, String notes, Date deadline, Timestamp createdAt, Timestamp updatedAt) {
+    public Task(int id, int idProject, String name, String description, boolean isCompleted, String notes, Date deadline, Date createdAt, Date updatedAt) {
         this.id = id;
         this.idProject = idProject;
         this.name = name;
@@ -28,7 +27,8 @@ public class Task {
     }
 
     public Task() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 
     public int getId() {
@@ -88,23 +88,19 @@ public class Task {
     }
 
     public Date getCreatedAt() {
-        return createdAt;
+        return new Date(createdAt.getTime());
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
-        return updatedAt;
+        return new Date(updatedAt.getTime());
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" + name + ", description=" + description + ", isCompleted=" + isCompleted + ", notes=" + notes + ", deadline=" + deadline + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
-    }
 }

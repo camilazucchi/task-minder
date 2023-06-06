@@ -5,6 +5,14 @@
 package view;
 
 import controller.TaskController;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import model.Project;
+import model.Task;
 
 /**
  *
@@ -13,11 +21,12 @@ import controller.TaskController;
 public class TaskDialogScreen extends javax.swing.JDialog {
 
     TaskController controller;
-    
+    Project project;
+
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         controller = new TaskController();
     }
 
@@ -104,6 +113,11 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jLabelDeadline.setText("Deadline");
 
         jFormattedTextFieldDeadline.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFormattedTextFieldDeadline.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldDeadlineActionPerformed(evt);
+            }
+        });
 
         jLabelNotes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabelNotes.setForeground(new java.awt.Color(66, 62, 55));
@@ -174,13 +188,46 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // EVENTO DE CLICK!!!!
+    // Evento de click para salvar a tarefa:
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
-        // TODO add your handling code here:
+        try {
+        // Cria a tarefa:
+        Task task = new Task();
+        // Seta ID:
+        task.setIdProject(24);
+        // Seta informações:
+        task.setName(jTextFieldName.getText());
+        task.setDescription(jTextAreaDescription.getText());
+        task.setNotes(jTextAreaNotes.getText());
+        task.setIsCompleted(false);
+
+        // Formatador de data:
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        String fieldValueString = jFormattedTextFieldDeadline.getText();
+        if (!fieldValueString.isEmpty()) {
+            Date deadline = dateFormat.parse(fieldValueString);
+            task.setDeadline(new java.sql.Date(deadline.getTime()));
+        } else {
+            // Define um valor padrão para o campo deadline, se necessário
+            task.setDeadline(null); // Ou outra data padrão
+        }
+
+        controller.save(task);
+        JOptionPane.showMessageDialog(this, "Task saved successfully!");
+        this.dispose();
+    } catch (HeadlessException | SQLException | ParseException ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao salvar!");
+    }
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
+    private void jFormattedTextFieldDeadlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDeadlineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldDeadlineActionPerformed
+
     /**
-     * @param args the command line arguments
+     *
+     * @param args
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -237,4 +284,8 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaNotes;
     private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 }
