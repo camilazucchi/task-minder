@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 import controller.ProjectController;
 import controller.TaskController;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
@@ -16,23 +14,18 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.JTableHeader;
 import model.Project;
 
-/**
- *
- * @author camil
- */
 public class MainScreen extends javax.swing.JFrame {
 
     ProjectController projectController;
     TaskController taskController;
-    
-    // Esse objeto será responsável por ser o model do componente gráfico:
-    DefaultListModel<Project> projectModel;
-   
+    DefaultListModel projectModel;
+
     public MainScreen() {
         initComponents();
         decorateTableTask();
         initDataController();
         initComponentsModel();
+        updateProjectsList();
     }
 
     /**
@@ -240,7 +233,7 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelProjectsListLayout.setVerticalGroup(
             jPanelProjectsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProjectsListLayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jScrollPanelProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -289,7 +282,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
         jPanelTasksListLayout.setVerticalGroup(
             jPanelTasksListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -327,9 +320,15 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelProjectsAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelProjectsAddMouseClicked
-        // TODO add your handling code here:
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
+
+        projectDialogScreen.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosed(WindowEvent e) {
+                loadProjects();
+            }
+        });
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
@@ -367,10 +366,8 @@ public class MainScreen extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainScreen().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainScreen().setVisible(true);
         });
     }
 
@@ -400,40 +397,42 @@ public class MainScreen extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
         }
-        
+
         JTableHeader header = jTableTasks.getTableHeader();
         // Customizando o header da tabela de tarefas:
         header.setFont(new Font("Arial", Font.BOLD, 16));
         header.setBorder(null);
         header.setBackground(new Color(255, 102, 153));
         header.setForeground(new Color(255, 255, 255));
-        
+
         // Criando um sort automático para as colunas da tabela:
         jTableTasks.setAutoCreateRowSorter(true);
     }
-    
+
+    // Nossos controladores:
     public void initDataController() {
         projectController = new ProjectController();
         taskController = new TaskController();
     }
-    
+
     // Iniciando o projectModel:
     public void initComponentsModel() {
-        projectModel = new DefaultListModel<Project>();
+        projectModel = new DefaultListModel();
         loadProjects();
     }
-    
+
     // Método responsável por carregar os projetos:
     public void loadProjects() {
         List<Project> projects = projectController.getAll();
-        
+
         projectModel.clear();
-        
-        for(int i = 0; i < projects.size() -1; i++) {
-            Project project = projects.get(i);
-            projectModel.addElement(project);
-        }
+
+        projects.forEach(projectModel::addElement);
+    }
+
+    private void updateProjectsList() {
+        // jListProjects é o nosso componente gráfico que terá os projetos.
+        jListProjects.setModel(projectModel);
     }
 }
