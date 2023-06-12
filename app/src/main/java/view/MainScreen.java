@@ -13,12 +13,16 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.JTableHeader;
 import model.Project;
+import model.Task;
+import util.TaskTableModel;
 
 public class MainScreen extends javax.swing.JFrame {
 
     ProjectController projectController;
     TaskController taskController;
-    DefaultListModel projectModel;
+    
+    DefaultListModel projectsModel;
+    TaskTableModel tasksModel;
 
     public MainScreen() {
         initComponents();
@@ -418,21 +422,32 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Iniciando o projectModel:
     public void initComponentsModel() {
-        projectModel = new DefaultListModel();
+        projectsModel = new DefaultListModel();
         loadProjects();
+        
+        TaskTableModel taskModel = new TaskTableModel();
+        jTableTasks.setModel(taskModel);
+        loadTasks();
+    }
+    
+    // Método responsável por carregas as tarefas:
+    public void loadTasks() {
+        // Pega todas as tarefas pertencentes a um projeto específico:
+        List<Task> tasks = taskController.getAll(24);
+        tasksModel.setTasks(tasks);
     }
 
     // Método responsável por carregar os projetos:
     public void loadProjects() {
         List<Project> projects = projectController.getAll();
 
-        projectModel.clear();
+        projectsModel.clear();
 
-        projects.forEach(projectModel::addElement);
+        projects.forEach(projectsModel::addElement);
     }
 
     private void updateProjectsList() {
         // jListProjects é o nosso componente gráfico que terá os projetos.
-        jListProjects.setModel(projectModel);
+        jListProjects.setModel(projectsModel);
     }
 }

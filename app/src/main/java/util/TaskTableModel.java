@@ -30,15 +30,29 @@ public class TaskTableModel extends AbstractTableModel {
             case 1:
                 return tasks.get(rowIndex).getName();
             case 2:
-                break;
+                return tasks.get(rowIndex).getDescription();
             case 3:
-                break;
+                return tasks.get(rowIndex).getDeadline();
             case 4:
-                break;
+                return tasks.get(rowIndex).isCompleted();
             case 5:
-                break;
+                return "";
+            case 6:
+                return "";
             default:
+                return "Not found.";
         }
-        return null;
+    }
+
+    public String[] getColumns() {
+        return columns;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }
