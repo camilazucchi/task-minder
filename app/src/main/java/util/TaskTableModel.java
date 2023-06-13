@@ -29,6 +29,11 @@ public class TaskTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return columns.length;
     }
+    
+    // Método que determina se a célula da tabela é editável:
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex == 3;
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
