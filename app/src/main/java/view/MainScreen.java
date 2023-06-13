@@ -275,6 +275,8 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.setRowHeight(50);
         jTableTasks.setSelectionBackground(new java.awt.Color(255, 102, 153));
         jTableTasks.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowHorizontalLines(true);
         jScrollPaneTasks.setViewportView(jTableTasks);
 
@@ -425,15 +427,15 @@ public class MainScreen extends javax.swing.JFrame {
         projectsModel = new DefaultListModel();
         loadProjects();
         
-        TaskTableModel taskModel = new TaskTableModel();
-        jTableTasks.setModel(taskModel);
-        loadTasks();
+        tasksModel = new TaskTableModel();
+        jTableTasks.setModel(tasksModel);
+        loadTasks(24);
     }
     
     // Método responsável por carregas as tarefas:
-    public void loadTasks() {
+    public void loadTasks(int idProject) {
         // Pega todas as tarefas pertencentes a um projeto específico:
-        List<Task> tasks = taskController.getAll(24);
+        List<Task> tasks = taskController.getAll(idProject);
         tasksModel.setTasks(tasks);
     }
 
