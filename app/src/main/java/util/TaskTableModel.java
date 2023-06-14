@@ -34,6 +34,16 @@ public class TaskTableModel extends AbstractTableModel {
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 3;
     }
+    
+    // Esse método retorna qual é a classe do componente em determinada coluna:
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if(tasks.isEmpty()) {
+            return Object.class;
+        }
+        return this.getValueAt(0, columnIndex).getClass();
+    }
+    
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
