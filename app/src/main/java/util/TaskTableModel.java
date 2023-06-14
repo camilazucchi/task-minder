@@ -58,9 +58,9 @@ public class TaskTableModel extends AbstractTableModel {
             case 3:
                 return tasks.get(rowIndex).isCompleted();
             case 4:
-                return "";
+                return "Teste.";
             case 5:
-                return "";
+                return "Teste 2.";
             default:
                 return "Not found.";
         }
