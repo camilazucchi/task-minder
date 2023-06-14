@@ -13,7 +13,7 @@ import util.ConnectionFactory;
 public class TaskController {
 
     private static final String INSERT_SQL = "INSERT INTO tasks(idProject, name, description, completed, notes, deadline, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_SQL = "UPDATE tasks SET idProject = ?, name = ?, notes = ?, deadline = ?, completed = ?, createdAt = ?, updatedAt = ? WHERE id = ?";
+    private static final String UPDATE_SQL = "UPDATE tasks SET idProject = ?, name = ?, description = ?, notes = ?, deadline = ?, completed = ?, createdAt = ?, updatedAt = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM tasks WHERE id = ?";
     private static final String SELECT_SQL = "SELECT * FROM tasks WHERE idProject = ?";
 
@@ -56,9 +56,13 @@ public class TaskController {
             statement.setInt(1, task.getIdProject());
             statement.setString(2, task.getName());
             statement.setString(3, task.getDescription());
-            statement.setBoolean(4, task.isCompleted());
-            statement.setString(5, task.getNotes());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
+            statement.setString(4, task.getNotes());
+            if (task.getDeadline() != null) {
+                statement.setDate(5, new Date(task.getDeadline().getTime()));
+            } else {
+                statement.setNull(5, java.sql.Types.DATE);
+            }
+            statement.setBoolean(6, task.isCompleted());
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
             statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
             statement.setInt(9, task.getId());
