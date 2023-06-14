@@ -4,12 +4,10 @@ package main;
 import controller.ProjectController;
 import controller.TaskController;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Project;
-import model.Task;
 
 
 public class Main {
