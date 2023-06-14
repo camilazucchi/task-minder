@@ -29,6 +29,7 @@ public class Task {
     public Task() {
         this.createdAt = new Date();
         this.updatedAt = new Date();
+        this.deadline = new Date();
     }
 
     public int getId() {
@@ -80,7 +81,7 @@ public class Task {
     }
 
     public Date getDeadline() {
-        return deadline;
+        return new Date(deadline.getTime());
     }
 
     public void setDeadline(Date deadline) {
