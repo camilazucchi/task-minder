@@ -31,6 +31,7 @@ public class TaskTableModel extends AbstractTableModel {
     }
     
     // Método que determina se a célula da tabela é editável:
+    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 3;
     }
