@@ -8,69 +8,51 @@ import model.Task;
 
 public class TaskTableModel extends AbstractTableModel {
 
-    // Colunas do componente gráfico Table:
-    String[] columns = {"Name", "Description", "Deadline", "Task completed", "Edit", "Delete"};
-    // Lista que guarda tarefas:
-    List<Task> tasks = new ArrayList();
+    private String[] columns = {"Name", "Description", "Deadline", "Task completed", "Edit", "Delete"};
+    private List<Task> tasks = new ArrayList();
+    private boolean[] cellEditable;
 
     @Override
-    // Linhas:
     public int getRowCount() {
         return tasks.size();
     }
-    
+
+    @Override
+    public int getColumnCount() {
+        return columns.length;
+    }
+
     @Override
     public String getColumnName(int columnIndex) {
         return columns[columnIndex];
     }
 
     @Override
-    // Colunas:
-    public int getColumnCount() {
-        return columns.length;
-    }
-    
-    // Método que determina se a célula da tabela é editável:
-    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 3;
+        return cellEditable[columnIndex];
     }
-    
+
     // Esse método retorna qual é a classe do componente em determinada coluna:
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(tasks.isEmpty()) {
+        if (tasks.isEmpty()) {
             return Object.class;
         }
-        return this.getValueAt(0, columnIndex).getClass();
+        return getColumnValueAt(0, columnIndex).getClass();
     }
-    
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return tasks.get(rowIndex).getName();
-            case 1:
-                return tasks.get(rowIndex).getDescription();
-            case 2:
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                return dateFormat.format(tasks.get(rowIndex).getDeadline());
-            case 3:
-                return tasks.get(rowIndex).isCompleted();
-            case 4:
-                return "Teste.";
-            case 5:
-                return "Teste 2.";
-            default:
-                return "Not found.";
-        }
+        return getColumnValueAt(rowIndex, columnIndex);
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        tasks.get(rowIndex).setIsCompleted((boolean) aValue);
+        if (columnIndex == 3) {
+            tasks.get(rowIndex).setIsCompleted((boolean) aValue);
+        }
     }
-    
+
     public String[] getColumns() {
         return columns;
     }
@@ -81,5 +63,44 @@ public class TaskTableModel extends AbstractTableModel {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+        updateCellEditable();
+        fireTableDataChanged();
+    }
+
+    private Object getColumnValueAt(int rowIndex, int columnIndex) {
+        Task task = tasks.get(rowIndex);
+        switch (columnIndex) {
+            case 0 -> {
+                return task.getName();
+            }
+            case 1 -> {
+                return task.getDescription();
+            }
+            case 2 -> {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                return dateFormat.format(task.getDeadline());
+            }
+            case 3 -> {
+                return task.isCompleted();
+            }
+            case 4 -> {
+                return "Edit";
+            }
+            case 5 -> {
+                return "Delete";
+            }
+            default -> {
+                return "Not found";
+            }
+        }
+    }
+
+    private void updateCellEditable() {
+        int numColumns = getColumnCount();
+        cellEditable = new boolean[numColumns];
+        for (int i = 0; i < numColumns; i++) {
+            cellEditable[i] = (i == 3);
+
+        }
     }
 }
