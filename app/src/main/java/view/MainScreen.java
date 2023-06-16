@@ -359,7 +359,10 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-        //taskDialogScreen.setProject(null);
+        // Retorna o índice do item selecionado:
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsModel.get(projectIndex);
+        taskDialogScreen.setProject(project);
         taskDialogScreen.setVisible(true);
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
@@ -491,28 +494,28 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void showJTableTasks(boolean hasTasks) {
         if (hasTasks) {
-            if (jPanelEmptyList.isVisible()) {
-                jPanelEmptyList.setVisible(false);
-                jPanelTasksList.remove(jPanelEmptyList);
-            }
-
-            if (!jScrollPaneTasks.isVisible()) {
-                jPanelTasksList.add(jScrollPaneTasks);
-                jScrollPaneTasks.setVisible(true);
-                jScrollPaneTasks.setSize(jPanelTasksList.getWidth(), jPanelTasksList.getHeight());
-            }
-        } else {
-            if (jScrollPaneTasks.isVisible()) {
-                jScrollPaneTasks.setVisible(false);
-                jPanelTasksList.remove(jScrollPaneTasks);
-            }
-
-            if (!jPanelEmptyList.isVisible()) {
-                jPanelEmptyList.setVisible(true);
-                jPanelEmptyList.setSize(jPanelTasksList.getWidth(), jPanelTasksList.getHeight());
-                jPanelTasksList.add(jPanelEmptyList);
-            }
+        if (jPanelEmptyList.isVisible()) {
+            jPanelEmptyList.setVisible(false);
+            jPanelTasksList.remove(jPanelEmptyList);
         }
+
+        if (!jScrollPaneTasks.isVisible()) {
+            jPanelTasksList.add(jScrollPaneTasks);
+            jScrollPaneTasks.setVisible(true);
+            jScrollPaneTasks.setSize(jPanelTasksList.getWidth(), jPanelTasksList.getHeight());
+        }
+    } else {
+        if (jScrollPaneTasks.isVisible()) {
+            jScrollPaneTasks.setVisible(false);
+            jPanelTasksList.remove(jScrollPaneTasks);
+        }
+
+        if (!jPanelEmptyList.isVisible()) {
+            jPanelEmptyList.setVisible(true);
+            jPanelEmptyList.setSize(jPanelTasksList.getWidth(), jPanelTasksList.getHeight());
+            jPanelTasksList.add(jPanelEmptyList);
+        }
+    }
     }
 
     // Método responsável por carregar os projetos:

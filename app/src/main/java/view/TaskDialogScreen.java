@@ -194,7 +194,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         // Cria a tarefa:
         Task task = new Task();
         // Seta ID:
-        task.setIdProject(24);
+        task.setIdProject(project.getId());
         // Seta informações:
         task.setName(jTextFieldName.getText());
         task.setDescription(jTextAreaDescription.getText());
@@ -209,8 +209,8 @@ public class TaskDialogScreen extends javax.swing.JDialog {
             Date deadline = dateFormat.parse(fieldValueString);
             task.setDeadline(new java.sql.Date(deadline.getTime()));
         } else {
-            // Define um valor padrão para o campo deadline, se necessário
-            task.setDeadline(null); // Ou outra data padrão
+            // Define um valor padrão para o campo deadline, se necessário.
+            task.setDeadline(null);
         }
 
         controller.save(task);
