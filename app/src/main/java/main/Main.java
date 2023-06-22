@@ -44,20 +44,16 @@ public class Main {
         task.setIsCompleted(false);
         task.setUpdatedAt(new Date());
         try {
-            taskController.save(task);
+        taskController.save(task);
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        try {
-            taskController.removeById(1);
-            taskController.removeById(2);
-            taskController.removeById(3);
-            taskController.removeById(4);
-            taskController.removeById(5);
-            taskController.removeById(8);
-            taskController.removeById(9);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        taskController.removeById(1);
+        taskController.removeById(2);
+        taskController.removeById(3);
+        taskController.removeById(4);
+        taskController.removeById(5);
+        taskController.removeById(8);
+        taskController.removeById(9);
     }
 }

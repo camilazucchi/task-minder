@@ -74,46 +74,41 @@ public class TaskController {
         }
     }
 
-    public void removeById(int taskId) throws SQLException {
+    public void removeById(int taskId) {
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_SQL)) {
-            // Setando os valores:
             statement.setInt(1, taskId);
-            // Executando a query:
             statement.execute();
-        } catch (SQLException ex) {
-            throw new SQLException("Erro ao deletar tarefa: " + ex.getMessage());
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao deletar tarefa: " + ex.getMessage());
         }
     }
 
     // Pegando todas as tarefas com base em um projeto:
     public List<Task> getAll(int idProject) {
-        ResultSet resultSet = null;
-
         // Lista de tarefas que será devolvida quando a chamada do método acontecer.
         List<Task> tasks = new ArrayList<>();
 
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_SQL)) {
             // Setando o valor que corresponde ao filtro de busca:
             statement.setInt(1, idProject);
-            // Valor retornado pela execução da query:
-            resultSet = statement.executeQuery();
 
-            // Enquanto houverem valores a serem percorridos no resultSet:
-            while (resultSet.next()) {
-                Task task = new Task();
-                task.setId(resultSet.getInt("id"));
-                task.setIdProject(resultSet.getInt("idProject"));
-                task.setName(resultSet.getString("name"));
-                task.setDescription(resultSet.getString("description"));
-                task.setIsCompleted(resultSet.getBoolean("completed"));
-                task.setNotes(resultSet.getString("notes"));
-                task.setDeadline(resultSet.getDate("deadline"));
-                task.setCreatedAt(resultSet.getDate("createdAt"));
-                task.setUpdatedAt(resultSet.getDate("updatedAt"));
-                tasks.add(task);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Task task = new Task();
+                    task.setId(resultSet.getInt("id"));
+                    task.setIdProject(resultSet.getInt("idProject"));
+                    task.setName(resultSet.getString("name"));
+                    task.setDescription(resultSet.getString("description"));
+                    task.setIsCompleted(resultSet.getBoolean("completed"));
+                    task.setNotes(resultSet.getString("notes"));
+                    task.setDeadline(resultSet.getDate("deadline"));
+                    task.setCreatedAt(resultSet.getDate("createdAt"));
+                    task.setUpdatedAt(resultSet.getDate("updatedAt"));
+                    tasks.add(task);
+                }
             }
         } catch (Exception ex) {
-            throw new RuntimeException("Erro ao inserir a tarefa: " + ex.getMessage());
+            throw new RuntimeException("Erro ao buscar as tarefas: " + ex.getMessage(), ex);
         }
         // Lista de tarefas criada e carregada do banco de dados:
         return tasks;
