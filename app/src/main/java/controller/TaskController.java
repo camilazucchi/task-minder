@@ -45,7 +45,6 @@ public class TaskController {
             statement.execute();
         } catch (SQLException ex) {
             System.err.println("Erro ao salvar a tarefa: " + ex.getMessage());
-            ex.printStackTrace();
             throw new SQLException("Erro ao salvar a tarefa: ", ex.getMessage(), ex);
         }
     }
