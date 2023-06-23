@@ -9,11 +9,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import model.Task;
 
 public class DeadlineColumnCellRenderer extends DefaultTableCellRenderer {
+
+    private final TaskTableModel tasksModel;
     
-    private TaskTableModel taskModel;
-    
-    public void setTaskModel(TaskTableModel taskModel) {
-        this.taskModel = taskModel;
+    public DeadlineColumnCellRenderer(TaskTableModel tasksModel) {
+        this.tasksModel = tasksModel;
     }
 
     @Override
@@ -23,14 +23,14 @@ public class DeadlineColumnCellRenderer extends DefaultTableCellRenderer {
                 value, isSelected, hasFocus, row, column);
         label.setHorizontalAlignment(CENTER);
         
-        Task task = taskModel.getTasks().get(row);
-        
+        Task task = tasksModel.getTasks().get(row);
+
         if (task.getDeadline().after(new Date())) {
             label.setBackground(Color.GREEN);
         } else {
             label.setBackground(Color.RED);
         }
-        
+
         return label;
     }
 }
