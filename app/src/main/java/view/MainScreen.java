@@ -14,6 +14,8 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.JTableHeader;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRenderer;
+import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
 public class MainScreen extends javax.swing.JFrame {
@@ -26,10 +28,11 @@ public class MainScreen extends javax.swing.JFrame {
 
     public MainScreen() {
         initComponents();
-        decorateTableTask();
         initDataController();
         initComponentsModel();
+        decorateTableTask();
         updateProjectsList();
+        
     }
 
     /**
@@ -452,8 +455,9 @@ public class MainScreen extends javax.swing.JFrame {
         header.setBackground(new Color(255, 102, 153));
         header.setForeground(new Color(255, 255, 255));
 
-        // Criando um sort automático para as colunas da tabela:
-        jTableTasks.setAutoCreateRowSorter(true);
+        jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer(tasksModel));
+        jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("editButton"));
+        jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("deleteButton"));
     }
 
     // Nossos controladores:
