@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -32,7 +33,7 @@ public class MainScreen extends javax.swing.JFrame {
         initComponentsModel();
         decorateTableTask();
         updateProjectsList();
-        
+
     }
 
     /**
@@ -331,36 +332,41 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
-        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-
         int projectIndex = jListProjects.getSelectedIndex();
-        Project project = (Project) projectsModel.get(projectIndex);
-        taskDialogScreen.setProject(project);
+        if (projectIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a project before adding a task.", "Attention.", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Project project = (Project) projectsModel.get(projectIndex);
+            TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+            taskDialogScreen.setProject(project);
+            taskDialogScreen.setVisible(true);
 
-        taskDialogScreen.setVisible(true);
+            taskDialogScreen.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadTasksForSelectedProject();
+                }
+            });
+        }
 
-        taskDialogScreen.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                loadTasksForSelectedProject();
-            }
-        });
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
     private void loadTasksForSelectedProject() {
         int projectIndex = jListProjects.getSelectedIndex();
-        Project project = (Project) projectsModel.get(projectIndex);
-        loadTasks(project.getId());
+        if (projectIndex != -1) {
+            Project project = (Project) projectsModel.get(projectIndex);
+            loadTasks(project.getId());
+        }
     }
 
     private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTasksMouseClicked
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
-        
-        if(rowIndex < 0 || rowIndex >= tasksModel.getTasks().size()) {
+
+        if (rowIndex < 0 || rowIndex >= tasksModel.getTasks().size()) {
             return;
         }
-        
+
         Task task = tasksModel.getTasks().get(rowIndex);
 
         switch (columnIndex) {
