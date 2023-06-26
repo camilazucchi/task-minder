@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
 import com.mysql.jdbc.StringUtils;
@@ -12,14 +8,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import model.Project;
 import model.Task;
 
-/**
- *
- * @author camil
- */
-public class TaskDialogScreen extends javax.swing.JDialog {
+public final class TaskDialogScreen extends javax.swing.JDialog {
 
     TaskController controller;
     Project project;
@@ -27,6 +21,41 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        hideErrorMessages();
+
+        jTextFieldName.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jLabelErrorName.setVisible(false);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                jLabelErrorName.setVisible(false);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                jLabelErrorName.setVisible(false);
+            }
+        });
+
+        jFormattedTextFieldDeadline.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jLabelErrorDeadline.setVisible(false);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                jLabelErrorDeadline.setVisible(false);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                jLabelErrorDeadline.setVisible(false);
+            }
+        });
 
         controller = new TaskController();
     }
@@ -54,6 +83,8 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jLabelNotes = new javax.swing.JLabel();
         jScrollPaneNotes = new javax.swing.JScrollPane();
         jTextAreaNotes = new javax.swing.JTextArea();
+        jLabelErrorName = new javax.swing.JLabel();
+        jLabelErrorDeadline = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -128,22 +159,38 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jTextAreaNotes.setRows(5);
         jScrollPaneNotes.setViewportView(jTextAreaNotes);
 
+        jLabelErrorName.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabelErrorName.setForeground(new java.awt.Color(255, 0, 51));
+        jLabelErrorName.setText("Please fill in the name of your task.");
+
+        jLabelErrorDeadline.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabelErrorDeadline.setForeground(new java.awt.Color(255, 51, 51));
+        jLabelErrorDeadline.setText("Please fill in the deadline of your task.");
+
         javax.swing.GroupLayout jPanelTaskLayout = new javax.swing.GroupLayout(jPanelTask);
         jPanelTask.setLayout(jPanelTaskLayout);
         jPanelTaskLayout.setHorizontalGroup(
             jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTaskLayout.createSequentialGroup()
+            .addGroup(jPanelTaskLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jFormattedTextFieldDeadline)
-                    .addComponent(jLabelName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldName, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-                    .addComponent(jLabelDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelDeadline, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelNotes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneNotes, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(20, 20, 20))
+                .addGroup(jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelTaskLayout.createSequentialGroup()
+                        .addComponent(jLabelErrorDeadline)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanelTaskLayout.createSequentialGroup()
+                        .addComponent(jLabelErrorName)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelTaskLayout.createSequentialGroup()
+                        .addGroup(jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jFormattedTextFieldDeadline)
+                            .addComponent(jLabelName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldName, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                            .addComponent(jLabelDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelDeadline, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelNotes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneNotes, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(20, 20, 20))))
         );
         jPanelTaskLayout.setVerticalGroup(
             jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,19 +199,23 @@ public class TaskDialogScreen extends javax.swing.JDialog {
                 .addComponent(jLabelName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jLabelErrorName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelDescription)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelDeadline)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jFormattedTextFieldDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelNotes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneNotes, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addComponent(jLabelErrorDeadline)
+                .addGap(21, 21, 21)
+                .addComponent(jLabelNotes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPaneNotes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -207,25 +258,20 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
             String fieldValueString = jFormattedTextFieldDeadline.getText();
 
-            if (!fieldValueString.isEmpty()) {
+            // Validação dos campos:
+            if (StringUtils.isEmptyOrWhitespaceOnly(task.getName())) {
+                jLabelErrorName.setVisible(true);
+            } else if (fieldValueString.isEmpty()) {
+                jLabelErrorDeadline.setVisible(true);
+            } else {
                 Date deadline = dateFormat.parse(fieldValueString);
                 task.setDeadline(new java.sql.Date(deadline.getTime()));
 
-                Date currentDate = new Date();
-
-                if (task.getDeadline().before(currentDate)) {
-                    JOptionPane.showMessageDialog(this, "The deadline cannot be in the past.", "Invalid deadline.", JOptionPane.ERROR_MESSAGE);
-                } else if (StringUtils.isEmptyOrWhitespaceOnly(task.getName())) {
-                    JOptionPane.showMessageDialog(this, "Please enter a name.", "Invalid fields.", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    controller.save(task);
-                    JOptionPane.showMessageDialog(this, "Task saved successfully!");
-                    this.dispose();
-                }
-            } else {
-                // Campo deadline vazio, exibe mensagem de erro:
-                JOptionPane.showMessageDialog(this, "Please enter a deadline.", "Invalid fields.", JOptionPane.ERROR_MESSAGE);
+                controller.save(task);
+                JOptionPane.showMessageDialog(this, "Task saved successfully!");
+                this.dispose();
             }
+
         } catch (HeadlessException ex) {
             JOptionPane.showMessageDialog(this, "Headless exception occurred.");
         } catch (SQLException ex) {
@@ -236,7 +282,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
     private void jFormattedTextFieldDeadlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDeadlineActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jFormattedTextFieldDeadlineActionPerformed
 
     /**
@@ -286,6 +332,8 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField jFormattedTextFieldDeadline;
     private javax.swing.JLabel jLabelDeadline;
     private javax.swing.JLabel jLabelDescription;
+    private javax.swing.JLabel jLabelErrorDeadline;
+    private javax.swing.JLabel jLabelErrorName;
     private javax.swing.JLabel jLabelName;
     private javax.swing.JLabel jLabelNotes;
     private javax.swing.JLabel jLabelToolBarSave;
@@ -301,5 +349,10 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public void hideErrorMessages() {
+        jLabelErrorName.setVisible(false);
+        jLabelErrorDeadline.setVisible(false);
     }
 }
