@@ -4,6 +4,7 @@
  */
 package view;
 
+import com.mysql.jdbc.StringUtils;
 import controller.TaskController;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
@@ -191,34 +192,47 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     // Evento de click para salvar a tarefa:
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
         try {
-        // Cria a tarefa:
-        Task task = new Task();
-        // Seta ID:
-        task.setIdProject(project.getId());
-        // Seta informações:
-        task.setName(jTextFieldName.getText());
-        task.setDescription(jTextAreaDescription.getText());
-        task.setNotes(jTextAreaNotes.getText());
-        task.setIsCompleted(false);
+            // Cria a tarefa:
+            Task task = new Task();
+            // Seta ID:
+            task.setIdProject(project.getId());
+            // Seta informações:
+            task.setName(jTextFieldName.getText());
+            task.setDescription(jTextAreaDescription.getText());
+            task.setNotes(jTextAreaNotes.getText());
+            task.setIsCompleted(false);
 
-        // Formatador de data:
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            // Formatador de data:
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        String fieldValueString = jFormattedTextFieldDeadline.getText();
-        if (!fieldValueString.isEmpty()) {
-            Date deadline = dateFormat.parse(fieldValueString);
-            task.setDeadline(new java.sql.Date(deadline.getTime()));
-        } else {
-            // Define um valor padrão para o campo deadline, se necessário.
-            task.setDeadline(null);
+            String fieldValueString = jFormattedTextFieldDeadline.getText();
+
+            if (!fieldValueString.isEmpty()) {
+                Date deadline = dateFormat.parse(fieldValueString);
+                task.setDeadline(new java.sql.Date(deadline.getTime()));
+
+                Date currentDate = new Date();
+
+                if (task.getDeadline().before(currentDate)) {
+                    JOptionPane.showMessageDialog(this, "The deadline cannot be in the past.", "Invalid deadline.", JOptionPane.ERROR_MESSAGE);
+                } else if (StringUtils.isEmptyOrWhitespaceOnly(task.getName())) {
+                    JOptionPane.showMessageDialog(this, "Please enter a name.", "Invalid fields.", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    controller.save(task);
+                    JOptionPane.showMessageDialog(this, "Task saved successfully!");
+                    this.dispose();
+                }
+            } else {
+                // Campo deadline vazio, exibe mensagem de erro:
+                JOptionPane.showMessageDialog(this, "Please enter a deadline.", "Invalid fields.", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (HeadlessException ex) {
+            JOptionPane.showMessageDialog(this, "Headless exception occurred.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "SQL exception occurred.");
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Parse exception occurred.");
         }
-
-        controller.save(task);
-        JOptionPane.showMessageDialog(this, "Task saved successfully!");
-        this.dispose();
-    } catch (HeadlessException | SQLException | ParseException ex) {
-        JOptionPane.showMessageDialog(this, "Erro ao salvar!");
-    }
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
     private void jFormattedTextFieldDeadlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDeadlineActionPerformed
